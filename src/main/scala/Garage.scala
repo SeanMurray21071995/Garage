@@ -44,4 +44,10 @@ class Garage {
   else
     clockedIn+=employee
   }
+  def calculateRepairTime(vehicle: Vehicle):Int={
+    val tempList =vehicle.partList.filter(element=> element.state=="Broken")
+    var sum:Int=0
+    for(i<-0 to tempList.length-1) sum+=tempList(i).fixTime
+    sum
+  }
 }
