@@ -7,7 +7,7 @@ abstract class Vehicle {
   val partList = scala.collection.mutable.ListBuffer.empty[Parts]
   for(i<-1 to 10){
     val rand = scala.util.Random.nextInt(1)
-    partList+=new Parts(i, if(rand==1)"Broken" else "NotBroken",if(rand==1)scala.util.Random.nextInt(10)else null)
+    partList+=new Parts(i, if(rand==1)"Broken" else "NotBroken",if(rand==1)scala.util.Random.nextInt(8)+1else 0)
   }
   override def toString:String = s"color:$colour \n wheels:$wheels"
 }

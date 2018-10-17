@@ -7,7 +7,7 @@ class Garage {
 
   def removeVehicle(removeParameter:Any):Unit = removeParameter match {
     case removeParameter: Int=> vehicleMap-=removeParameter
-    case removeParameter: String=> vehicleMap=vehicleMap.filter(element => element._2.getClass.getName!=removeParameter)//=vehicleMap.filter(element => !element._2.isInstanceOf[Car])
+    case removeParameter: String=> vehicleMap=vehicleMap.filter(element => element._2.getClass.getName!=removeParameter)  //=vehicleMap.filter(element => !element._2.isInstanceOf[Car])
   }
   def showVehicleList():Unit={
     vehicleMap.foreach(println)
@@ -25,29 +25,21 @@ class Garage {
   def jobComplte(employee: Employee):Unit={
     addToMap(employee.carAssigned.id, employee.carAssigned.fixed=true)
   }
-  def calculateBill(vehicleId:Int, actualCost:Double):Double={
-     vehicleMap.get(vehicleId) match{
-       case Some(value) if value.estimatedCost<=actualCost=> (actualCost/100)*80
+  def calculateBill(vehicle: Vehicle):Double={
+     val actualCost=vehicle.partList.map(_.fixTime).sum*4.99
+     vehicleMap.get(vehicle.id) match{
+       case Some(value) if value.estimatedCost<=actualCost=> (actualCost/100)*90
        case Some(value) => actualCost
        case None=> 0
      }
   }
   def isGarageOpen():Boolean={
-    if (clockedIn.isEmpty)
-      false
-    else
-      true
+    if(clockedIn.isEmpty)false else true
   }
-  def clockIn(employee: Employee):Unit=  {
+  def clockIn(employee: Employee):Unit={      // potentialy combine this method for my adding removing to the list method
   if (clockedIn.contains(employee))
       clockedIn-=employee
   else
     clockedIn+=employee
-  }
-  def calculateRepairTime(vehicle: Vehicle):Int={
-    val tempList =vehicle.partList.filter(element=> element.state=="Broken")
-    var sum:Int=0
-    for(i<-0 to tempList.length-1) sum+=tempList(i).fixTime
-    sum
   }
 }
